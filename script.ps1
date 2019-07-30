@@ -3,6 +3,8 @@ ssh-keygen -t rsa -b 2048 -f $HOME/.ssh/id_rsa
 New-AzResourceGroup -Name "myResourceGroup" -Location "francecentral"
 
 
+
+
 # Create a subnet configuration
 $subnetConfig = New-AzVirtualNetworkSubnetConfig `
   -Name "mySubnet" `
@@ -23,6 +25,7 @@ $pip = New-AzPublicIpAddress `
   -AllocationMethod Static `
   -IdleTimeoutInMinutes 4 `
   -Name "mypublicdns$(Get-Random)"
+
 
 
 # Create an inbound network security group rule for port 22
@@ -57,7 +60,12 @@ $nsg = New-AzNetworkSecurityGroup `
   -SecurityRules $nsgRuleSSH,$nsgRuleWeb
   
   
-# Create a virtual network card and associate with public IP address and NSG
+  
+  
+  
+  
+  
+  # Create a virtual network card and associate with public IP address and NSG
 $nic = New-AzNetworkInterface `
   -Name "myNic" `
   -ResourceGroupName "myResourceGroup" `
@@ -65,6 +73,11 @@ $nic = New-AzNetworkInterface `
   -SubnetId $vnet.Subnets[0].Id `
   -PublicIpAddressId $pip.Id `
   -NetworkSecurityGroupId $nsg.Id
+  
+  
+  
+  
+  
   
 
 # Define a credential object
@@ -75,7 +88,7 @@ $cred = New-Object System.Management.Automation.PSCredential ("azureuser", $secu
 # Create a virtual machine configuration
 $vmConfig = New-AzVMConfig `
   -VMName "myVM" `
-  -VMSize "Standard_D1" | `
+  -VMSize "Standard_A0" | `
 Set-AzVMOperatingSystem `
   -Linux `
   -ComputerName "myVM" `
